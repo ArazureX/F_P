@@ -99,6 +99,7 @@ def transform_bronze_to_silver(**kwargs):
 with models.DAG(
     'process_sales_pipeline',
     default_args=default_args,
+    schedule_interval='0 1 * * *',
 ) as dag:
 
     load_csvs = PythonOperator(
