@@ -77,7 +77,7 @@ def transform_bronze_to_silver(**kwargs):
     client = bigquery.Client()
 
     query = """
-    CREATE OR REPLACE TABLE `silver.sales`
+    CREATE OR REPLACE TABLE `silver.sales` 
     PARTITION BY purchase_date AS
     SELECT
         CAST(CustomerId AS STRING) AS client_id,
