@@ -80,7 +80,7 @@ def transform_bronze_to_silver(**kwargs):
     CREATE OR REPLACE TABLE `silver.sales` 
     PARTITION BY purchase_date AS
     SELECT
-        CAST(CustomerId AS STRING) AS client_id,
+        CAST(CustomerId AS INTEGER) AS client_id,
         CASE
             WHEN REGEXP_CONTAINS(PurchaseDate, r'^\d{4}-\d{2}-\d{2}$') THEN CAST(PurchaseDate AS DATE FORMAT 'YYYY-MM-DD')
             WHEN REGEXP_CONTAINS(PurchaseDate, r'^\d{4}-\w{3}-\d{2}$') THEN DATE(PARSE_DATE('%Y-%b-%d', PurchaseDate))

@@ -65,7 +65,6 @@ def load_latest_csv_to_bronze(**kwargs):
 
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.csv') as temp_file:
         for i, file in enumerate(csv_files):
-            # Завантажуємо файл з GCS
             data = gcs_hook.download(bucket_name=GCS_BUCKET, object_name=file).decode('utf-8')
             
             if i == 0:
