@@ -3,6 +3,14 @@ from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobO
 from airflow.utils.dates import days_ago
 from datetime import datetime, timedelta
 
+# Define dataset variables
+project_id = 'lofty-stack-426117-q8'
+silver_dataset = 'silver'
+gold_dataset = 'gold'
+customers_table='customers'
+user_profiles_table = 'user_profiles'
+user_profiles_enriched_table = 'user_profiles_enriched'
+
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -23,8 +31,8 @@ with DAG(
         task_id='enrich_user_profiles_task',
         configuration={
             "query": {
-                "query": """
-                    CREATE OR REPLACE TABLE `lofty-stack-426117-q8.gold.user_profiles_enriched` AS
+                "query": f"""
+                    CREATE OR REPLACE TABLE `{project_id}.{gold_dataset}.{user_profiles_enriched_table}` AS
                     SELECT
                         CAST(c.client_id AS INT64) AS client_id,
                         COALESCE(SPLIT(p.full_name, ' ')[SAFE_OFFSET(0)], c.first_name) AS first_name,
@@ -35,16 +43,15 @@ with DAG(
                         p.birth_date,
                         CAST(p.phone_number AS STRING) AS phone_number
                     FROM
-                        `lofty-stack-426117-q8.silver.customers` c
+                        `{project_id}.{silver_dataset}.{customers_table}` c
                     LEFT JOIN
-                        `lofty-stack-426117-q8.silver.user_profiles` p
+                        `{project_id}.{silver_dataset}.{user_profiles_table}` p
                     ON
                         c.email = p.email
                 """,
                 "useLegacySql": False,
             }
         },
-        
     )
 
     enrich_user_profiles_task
