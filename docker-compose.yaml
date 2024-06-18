@@ -60,6 +60,8 @@ x-airflow-common:
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/config/lofty-stack-426117-q8-406949d6cec5.json
+    #GOOGLE_APPLICATION_CREDENTIALS: "/opt/airflow/config/lofty-stack-426117-q8-406949d6cec5.json"
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
